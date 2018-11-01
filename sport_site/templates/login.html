@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% extends 'base_accounts.html' %}
+{% load static %}
+<html>
+<head>
+	{% block stylesheet %}
+		<link rel="stylesheet" type="text/css" href="{% static 'css/accounts.css' %}">
+	{% endblock %}
+</head>
+<body>
+	{% block content %}
+		<div class="row justify-content-center">
+			<div class="col-lg-4 col-md-6 col-sm-8">
+				<div class="card">
+					<div class="card-body">
+						<h3 class="card-title">登 录</h3>
+						<!-- novalidate 是为了让表格很好看的另外一个html文件 -->
+						<form method="post" novalidate>
+							{% csrf_token %}
+							<!-- 保护视图所需要的代码 -->
+							<input type="hidden" name="next" value="{{ next }}">
+							<!-- {{ form.as_p }} -->
+							{% include 'includes/form.html' %}
+							<button type="submit" class="btn btn-block">登录</button>
+						</form>
+					</div>
+					<div class="card-footer text-muted text-center">
+						注册新的账户？ <a href="{% url 'signup' %}">注册</a>
+					</div>
+					<div class="text-center py-2">
+					<small>
+						<a href="{% url 'password_reset' %}" class="text-muted">忘记密码？</a>
+					</small>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
+</body>
+</html>

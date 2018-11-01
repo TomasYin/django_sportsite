@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+	<title>{% block title %}Django Board{% endblock %}</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- 设置网站的标志 -->
+	<link rel="shortcut icon" href="{%static 'img/favicon.ico' %}" >
+	<link rel="stylesheet" type="text/css" href="">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Peralta" rel="stylesheet">
+	<!-- 改变Django Boards的字体 -->
+	<link rel="stylesheet" href="{% static 'css/app.css' %}">
+	<!-- 块代码 表示添加一些额外的CSS，用于某些特定的页面。 -->
+	{% block stylesheet %}{% endblock %}
+
+</head>
+<body>
+	{% block body %}
+		<!-- navbar的各种属性设置相关形态 navbar-expand-sm表示横向表格 bg-设置底色  navbar-设置字体颜色 -->
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+			<!-- Brand 设置一个标题LOG -->
+			<a class="navbar-brand" href="{% url 'home' %}">Djang 体育</a>		
+	
+			<!-- 设置重叠导航栏 -->
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="mainMenu">
+				{% if user.is_authenticated %}
+					<ul class="navbar-nav">
+					<!-- <li class="nav-item">
+					<a class="nav-link" href="#">Link</a>
+					</li>
+					<li class="nav-item">
+					<a class="nav-link" href="#">Link</a>
+					</li>
+					<li class="nav-item">
+					<a class="nav-link" href="#">Link</a>
+					</li>     -->
+					</ul>
+
+					<!-- 设置导航栏使用下拉功能 -->
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+							{{ user.username }}
+							</a>
+							
+							<div class="dropdown-menu dropdown-menu-right">
+								<a class="dropdown-item" href="{% url 'my_account' %}">我的账户</a>
+								<a class="dropdown-item" href="{% url 'password_change' %}">修改密码</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="{% url 'logout' %}">退出登录</a>
+							</div>
+						</li>
+					</ul>
+				{% else %}
+					<form class="form-inline ml-auto">
+						<a href="{% url 'login' %}" class="btn btn-outline-secondar">登 录</a>
+						<a href="{% url 'signup' %}" class="btn btn-primary ml-2">注 册</a>
+					</form>
+				{% endif %}
+			</div>
+		</nav>
+		<br>
+		<br>
+
+		<div class="container">
+			<ol class="breadcrumb my-4">
+				{% block breadcrumb %}
+				{% endblock %}
+			</ol>
+			
+			{% block content %}
+			{% endblock %}
+		</div>
+	{% endblock %}
+
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	<script src="{% static 'js/popper.min.js' %}"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+	{% block javascript %}{% endblock %}
+</body>
+</html>

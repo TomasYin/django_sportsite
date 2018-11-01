@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html>
+<head>
+	{% block title %}
+		My acount
+	{% endblock %}
+</head>
+<body>
+	{% block breadcrumb %}
+		<li class="breadcrumb-item active">我的账户</li>
+	{% endblock %}
+
+	{% block content %}
+		<div class="row">
+			<div class="col-lg-6 col-md-8 col-sm-10">
+				<form method="post" novalidate>
+					{% csrf_token %}
+					{% include 'includes/form.html' %}
+					<button type="submit" class="btn btn-success">保存修改</button>
+				</form>
+			</div>
+		</div>
+	{% endblock %}
+</body>
+</html>

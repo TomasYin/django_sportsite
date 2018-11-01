@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+	<!-- 只使用在使用GCBV模式的views的视图中的分页操作 -->
+	<!-- 判断是不是分页 -->
+	{% if is_paginated %}
+		<nav aria-label="Topics pagination" class="mb-4">
+			<ul class="pagination">
+				<!-- page_obj 等于从pagination后的每一页 -->
+				<!-- 判断此页是不是第一页,如果不是提供一个首页的超链接 -->
+				{% if page_obj.number > 1 %}
+					<li class="page-item">
+						<a class="page-link" href="?page=1">首页</a>
+					</li>
+				{% else %}
+					<li class="page-item disabled">
+						<span class="page-link">首页</span>
+					</li>
+				{% endif %}
+
+				<!-- 如果pagination有前一页,提供前一页的超链接 -->
+				{% if page_obj.has_previous %}
+					<li class="page-item">
+						<a class="page-link" href="?page={{ page_obj.previous_page_number }}">前一页</a>
+					</li>
+				{% else %}
+					<li class="page-item disabled">
+						<span class="page-link">前一页</span>
+					</li>
+				{% endif %}
+				
+				<!-- 实现分页更好看,每次分页只显示此页前后的2页超链接 -->
+				{% for page_num in paginator.page_range %}
+					{% if page_obj.number == page_num %}
+						<li class="page-item active">
+							<span class="page-link">
+								{{ page_num }}
+								<span class="sr-only">(current)</span>
+							</span>
+						</li>
+					{% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
+						<li class="page-item">
+							<a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+
+				<!-- 如果pagination有后一页,提供后一页的超链接 -->
+				{% if page_obj.has_next %}
+					<li class="page-item">
+						<a class="page-link" href="?page={{ page_obj.next_page_number }}">下一页</a>
+					</li>
+				{% else %}
+					<li class="page-item disabled">
+						<span class="page-link">下一页</span>
+					</li>
+				{% endif %}
+
+				<!-- 如果此页不是最后最一页提供一个最后一页的超链接 -->
+				{% if page_obj.number != paginator.num_pages %}
+					<li class="page-item">
+						<a class="page-link" href="?page={{ paginator.num_pages }}">尾页</a>
+					</li>
+				{% else %}
+					<li class="page-item disabled">
+						<span class="page-link">尾页</span>
+					</li>
+				{% endif %}
+			</ul>
+		</nav>
+	{% endif %}
+</body>
+</html>
